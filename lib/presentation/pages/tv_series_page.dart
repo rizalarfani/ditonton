@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
+import 'package:ditonton/presentation/pages/on_air_tv_series.dart';
 import 'package:ditonton/presentation/pages/top_raled_tv_series.dart';
 import 'package:ditonton/presentation/pages/popular_tv_series.dart';
 import 'package:ditonton/presentation/provider/tv_series_list_notifier.dart';
@@ -40,7 +41,12 @@ class _TvSeriesPageState extends State<TvSeriesPage> {
             children: [
               SubHeading(
                 title: 'On Air Tv Series',
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    OnAirTvSeries.ROUTE_NAME,
+                  );
+                },
               ),
               Consumer<TvSeriesListNotifier>(
                 builder: (context, data, child) {
