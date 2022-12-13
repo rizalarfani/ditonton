@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 
 class MovieTable extends Equatable {
   final int id;
+  final int status = 1;
   final String? title;
   final String? posterPath;
   final String? overview;
@@ -31,6 +32,7 @@ class MovieTable extends Equatable {
 
   Map<String, dynamic> toJson() => {
         'id': id,
+        'status': status,
         'title': title,
         'posterPath': posterPath,
         'overview': overview,

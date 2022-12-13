@@ -25,20 +25,6 @@ class HomePage extends StatelessWidget {
               accountEmail: Text('ditonton@dicoding.com'),
             ),
             ListTile(
-              leading: Icon(Icons.movie),
-              title: Text('Movies'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.save_alt),
-              title: Text('Watchlist'),
-              onTap: () {
-                Navigator.pushNamed(context, WatchlistMoviesPage.ROUTE_NAME);
-              },
-            ),
-            ListTile(
               onTap: () {
                 Navigator.pushNamed(context, AboutPage.ROUTE_NAME);
               },
@@ -73,6 +59,7 @@ class HomePage extends StatelessWidget {
           children: [
             HomeMoviePage(),
             TvSeriesPage(),
+            WatchlistMoviesPage(),
           ],
         ),
       ),
@@ -93,6 +80,12 @@ class HomePage extends StatelessWidget {
                 Icons.tv_rounded,
               ),
               label: 'Tv Series',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.save_alt,
+              ),
+              label: 'Watchlist',
             )
           ],
         ),
