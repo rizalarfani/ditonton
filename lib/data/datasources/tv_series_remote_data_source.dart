@@ -11,6 +11,7 @@ abstract class TvSeriesRemoteDataSource {
   Future<List<TvSeriesModel>> getPopularTvSeries();
   Future<List<TvSeriesModel>> getTopRatedTvSeries();
   Future<List<TvSeriesModel>> getOnTheAirTvSeries();
+  Future<List<TvSeriesModel>> getTvSeriesRecommendations(int id);
   Future<TvSeriesDetailResponse> getDetailTvSeries(int id);
 }
 
@@ -64,6 +65,18 @@ class TvSeriesRemoteDataSourceImplement extends TvSeriesRemoteDataSource {
 
     if (response.statusCode == 200) {
       return TvSeriesDetailResponse.fromJson(json.decode(response.body));
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<List<TvSeriesModel>> getTvSeriesRecommendations(int id) async {
+    final response = await client
+        .get(Uri.parse('$BASE_URL/tv/$id/recommendations?$API_KEY'));
+
+    if (response.statusCode == 200) {
+      return TvSeriesResponse.fromJson(json.decode(response.body)).tvSeriesList;
     } else {
       throw ServerException();
     }

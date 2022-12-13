@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ditonton/domain/entities/tv_series.dart';
 import 'package:ditonton/domain/entities/tv_series_detail.dart';
 import 'package:ditonton/presentation/provider/tv_series_detail_notifier.dart';
 import 'package:flutter/material.dart';
@@ -34,15 +35,16 @@ class _TvSeriesDetailPageState extends State<TvSeriesDetailPage> {
     return Scaffold(
       body: Consumer<TvSeriesDetailNotifier>(
         builder: (context, provider, child) {
-          if (provider.movieState == RequestState.Loading) {
+          if (provider.tvSeriesState == RequestState.Loading) {
             return Center(
               child: CircularProgressIndicator(),
             );
-          } else if (provider.movieState == RequestState.Loaded) {
+          } else if (provider.tvSeriesState == RequestState.Loaded) {
             final tvSeries = provider.tvSeries;
             return SafeArea(
               child: DetailContent(
                 tvSeries,
+                provider.tvSeriesRecommendations,
               ),
             );
           } else {
@@ -56,8 +58,9 @@ class _TvSeriesDetailPageState extends State<TvSeriesDetailPage> {
 
 class DetailContent extends StatelessWidget {
   final TvSeriesDetail tvSeries;
+  final List<TvSeries> recommendations;
 
-  DetailContent(this.tvSeries);
+  DetailContent(this.tvSeries, this.recommendations);
 
   @override
   Widget build(BuildContext context) {
@@ -139,6 +142,62 @@ class DetailContent extends StatelessWidget {
                               'Recommendations',
                               style: kHeading6,
                             ),
+                            Consumer<TvSeriesDetailNotifier>(
+                              builder: (context, data, child) {
+                                if (data.recommendationState ==
+                                    RequestState.Loading) {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                } else if (data.recommendationState ==
+                                    RequestState.Error) {
+                                  return Text(data.message);
+                                } else if (data.recommendationState ==
+                                    RequestState.Loaded) {
+                                  return Container(
+                                    height: 150,
+                                    child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (context, index) {
+                                        final tvSerie = recommendations[index];
+                                        return Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: InkWell(
+                                            onTap: () {
+                                              Navigator.pushReplacementNamed(
+                                                context,
+                                                TvSeriesDetailPage.ROUTE_NAME,
+                                                arguments: tvSerie.id,
+                                              );
+                                            },
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(8),
+                                              ),
+                                              child: CachedNetworkImage(
+                                                imageUrl:
+                                                    'https://image.tmdb.org/t/p/w500${tvSerie.posterPath}',
+                                                placeholder: (context, url) =>
+                                                    Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                ),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Icon(Icons.error),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      itemCount: recommendations.length,
+                                    ),
+                                  );
+                                } else {
+                                  return Container();
+                                }
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -155,9 +214,7 @@ class DetailContent extends StatelessWidget {
                 ),
               );
             },
-            // initialChildSize: 0.5,
             minChildSize: 0.25,
-            // maxChildSize: 1.0,
           ),
         ),
         Padding(
