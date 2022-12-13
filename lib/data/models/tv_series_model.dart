@@ -8,7 +8,6 @@ class TvSeriesModel extends Equatable {
   final String? backdropPath;
   final double voteAverage;
   final String overview;
-  final String firstairDate;
   final List<dynamic> genreIds;
   final String name;
 
@@ -19,7 +18,6 @@ class TvSeriesModel extends Equatable {
     this.backdropPath,
     required this.voteAverage,
     required this.overview,
-    required this.firstairDate,
     required this.genreIds,
     required this.name,
   });
@@ -31,7 +29,6 @@ class TvSeriesModel extends Equatable {
         backdropPath: json['backdrop_path'],
         voteAverage: json['vote_average'].toDouble(),
         overview: json['overview'],
-        firstairDate: json['first_air_date'],
         genreIds: json['genre_ids'],
         name: json['name'],
       );
@@ -43,7 +40,6 @@ class TvSeriesModel extends Equatable {
         'backdrop_path': backdropPath,
         'vote_average': voteAverage,
         'overview': overview,
-        'first_air_date': firstairDate,
         'genre_ids': List<dynamic>.from(genreIds.map((e) => e)),
         'name': name,
       };
@@ -56,7 +52,6 @@ class TvSeriesModel extends Equatable {
       backdropPath: backdropPath,
       voteAverage: voteAverage,
       overview: overview,
-      firstairDate: firstairDate,
       genreIds: genreIds,
       name: name,
     );
@@ -70,7 +65,6 @@ class TvSeriesModel extends Equatable {
         backdropPath,
         voteAverage,
         overview,
-        firstairDate,
         genreIds,
         name,
       ];

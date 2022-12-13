@@ -1,6 +1,7 @@
 import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/home_movie_page.dart';
-import 'package:ditonton/presentation/pages/search_page.dart';
+import 'package:ditonton/presentation/pages/search_page_movie.dart';
+import 'package:ditonton/presentation/pages/search_page_tv.dart';
 import 'package:ditonton/presentation/pages/tv_series_page.dart';
 import 'package:ditonton/presentation/pages/watchlist_movies_page.dart';
 import 'package:ditonton/presentation/provider/bottom_navigation_notifier.dart';
@@ -50,12 +51,20 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Ditonton'),
         actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, SearchPage.ROUTE_NAME);
+          Consumer<BottomNavigationNotifier>(
+            builder: (context, state, _) {
+              return IconButton(
+                onPressed: () {
+                  if (state.currentIndex == 0) {
+                    Navigator.pushNamed(context, SearchPageMovie.ROUTE_NAME);
+                  } else {
+                    Navigator.pushNamed(context, SearchPageTv.ROUTE_NAME);
+                  }
+                },
+                icon: Icon(Icons.search),
+              );
             },
-            icon: Icon(Icons.search),
-          )
+          ),
         ],
       ),
       body: Consumer<BottomNavigationNotifier>(
