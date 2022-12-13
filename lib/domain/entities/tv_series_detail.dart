@@ -12,9 +12,9 @@ class TvSeriesDetail extends Equatable {
   final int numberOfSeasons;
   final String originalName;
   final String overview;
-  final int popularity;
+  final double popularity;
   final String posterPath;
-  final int voteAverage;
+  final double voteAverage;
   final int voteCount;
 
   TvSeriesDetail(

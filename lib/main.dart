@@ -12,6 +12,7 @@ import 'package:ditonton/presentation/pages/top_raled_tv_series.dart';
 import 'package:ditonton/presentation/pages/popular_tv_series.dart';
 import 'package:ditonton/presentation/pages/search_page.dart';
 import 'package:ditonton/presentation/pages/top_rated_movies_page.dart';
+import 'package:ditonton/presentation/pages/tv_series_detail_page.dart';
 import 'package:ditonton/presentation/pages/watchlist_movies_page.dart';
 import 'package:ditonton/presentation/provider/bottom_navigation_notifier.dart';
 import 'package:ditonton/presentation/provider/movie_detail_notifier.dart';
@@ -121,6 +122,12 @@ class MyApp extends StatelessWidget {
             case OnAirTvSeries.ROUTE_NAME:
               return MaterialPageRoute(
                 builder: (_) => OnAirTvSeries(),
+              );
+            case TvSeriesDetailPage.ROUTE_NAME:
+              final id = settings.arguments as int;
+              return MaterialPageRoute(
+                builder: (_) => TvSeriesDetailPage(id: id),
+                settings: settings,
               );
             default:
               return MaterialPageRoute(
