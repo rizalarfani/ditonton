@@ -3,7 +3,7 @@ import 'package:ditonton/presentation/pages/home_movie_page.dart';
 import 'package:ditonton/presentation/pages/search_page_movie.dart';
 import 'package:ditonton/presentation/pages/search_page_tv.dart';
 import 'package:ditonton/presentation/pages/tv_series_page.dart';
-import 'package:ditonton/presentation/pages/watchlist_movies_page.dart';
+import 'package:ditonton/presentation/pages/watchlist_page.dart';
 import 'package:ditonton/presentation/provider/bottom_navigation_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +59,7 @@ class HomePage extends StatelessWidget {
           children: [
             HomeMoviePage(),
             TvSeriesPage(),
-            WatchlistMoviesPage(),
+            WatchlistPage(),
           ],
         ),
       ),

@@ -10,8 +10,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class MovieDetailNotifier extends ChangeNotifier {
-  static const watchlistAddSuccessMessage = 'Added to Watchlist';
-  static const watchlistRemoveSuccessMessage = 'Removed from Watchlist';
+  static const watchlistAddSuccessMessage = 'Added to Watchlist Movie';
+  static const watchlistRemoveSuccessMessage = 'Removed from Watchlist Movie';
 
   final GetMovieDetail getMovieDetail;
   final GetMovieRecommendations getMovieRecommendations;

@@ -1,18 +1,19 @@
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/common/utils.dart';
-import 'package:ditonton/presentation/provider/watchlist_movie_notifier.dart';
+import 'package:ditonton/presentation/provider/watchlist_notifier.dart';
 import 'package:ditonton/presentation/widgets/movie_card_list.dart';
+import 'package:ditonton/presentation/widgets/tv_series_cart_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../common/constants.dart';
 
-class WatchlistMoviesPage extends StatefulWidget {
+class WatchlistPage extends StatefulWidget {
   @override
-  _WatchlistMoviesPageState createState() => _WatchlistMoviesPageState();
+  _WatchlistPageState createState() => _WatchlistPageState();
 }
 
-class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
+class _WatchlistPageState extends State<WatchlistPage>
     with RouteAware, SingleTickerProviderStateMixin {
   late TabController tabController;
 
@@ -20,9 +21,11 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
   void initState() {
     super.initState();
     tabController = TabController(length: 2, vsync: this);
-    Future.microtask(() =>
-        Provider.of<WatchlistMovieNotifier>(context, listen: false)
-            .fetchWatchlistMovies());
+    Future.microtask(
+      () => Provider.of<WatchlistNotifier>(context, listen: false)
+        ..fetchWatchlistMovies()
+        ..fetchWatchlistTvSeries(),
+    );
   }
 
   @override
@@ -32,8 +35,9 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
   }
 
   void didPopNext() {
-    Provider.of<WatchlistMovieNotifier>(context, listen: false)
-        .fetchWatchlistMovies();
+    Provider.of<WatchlistNotifier>(context, listen: false)
+      ..fetchWatchlistMovies()
+      ..fetchWatchlistTvSeries();
   }
 
   @override
@@ -84,20 +88,24 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
                 child: TabBarView(
                   controller: tabController,
                   children: [
-                    Consumer<WatchlistMovieNotifier>(
+                    Consumer<WatchlistNotifier>(
                       builder: (context, data, child) {
                         if (data.watchlistState == RequestState.Loading) {
                           return Center(
                             child: CircularProgressIndicator(),
                           );
                         } else if (data.watchlistState == RequestState.Loaded) {
-                          return ListView.builder(
-                            itemBuilder: (context, index) {
-                              final movie = data.watchlistMovies[index];
-                              return MovieCard(movie);
-                            },
-                            itemCount: data.watchlistMovies.length,
-                          );
+                          return data.watchlistMovies.length > 0
+                              ? ListView.builder(
+                                  itemBuilder: (context, index) {
+                                    final movie = data.watchlistMovies[index];
+                                    return MovieCard(movie);
+                                  },
+                                  itemCount: data.watchlistMovies.length,
+                                )
+                              : Center(
+                                  child: Text('Tidak ada watchlistMovies'),
+                                );
                         } else {
                           return Center(
                             key: Key('error_message'),
@@ -106,7 +114,34 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
                         }
                       },
                     ),
-                    Text('tv series'),
+                    Consumer<WatchlistNotifier>(
+                      builder: (context, data, child) {
+                        if (data.watchlistTvState == RequestState.Loading) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (data.watchlistTvState ==
+                            RequestState.Loaded) {
+                          return data.watchListTvSeries.length > 0
+                              ? ListView.builder(
+                                  itemBuilder: (context, index) {
+                                    final tvSeries =
+                                        data.watchListTvSeries[index];
+                                    return TvSeriesCard(tvSeries);
+                                  },
+                                  itemCount: data.watchListTvSeries.length,
+                                )
+                              : Center(
+                                  child: Text('Tidak ada watchlist Tv Series'),
+                                );
+                        } else {
+                          return Center(
+                            key: Key('error_message'),
+                            child: Text(data.message),
+                          );
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),
