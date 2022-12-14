@@ -192,7 +192,7 @@ void main() {
     test('should update watchlist status when add watchlist success', () async {
       // arrange
       when(mockSaveWatchlist.execute(testMovieDetail))
-          .thenAnswer((_) async => Right('Added to Watchlist'));
+          .thenAnswer((_) async => Right('Added to Watchlist Movie'));
       when(mockGetWatchlistStatus.execute(testMovieDetail.id))
           .thenAnswer((_) async => true);
       // act
@@ -200,7 +200,7 @@ void main() {
       // assert
       verify(mockGetWatchlistStatus.execute(testMovieDetail.id));
       expect(provider.isAddedToWatchlist, true);
-      expect(provider.watchlistMessage, 'Added to Watchlist');
+      expect(provider.watchlistMessage, 'Added to Watchlist Movie');
       expect(listenerCallCount, 1);
     });
 

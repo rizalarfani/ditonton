@@ -9,10 +9,15 @@ import '../../helpers/test_helper.mocks.dart';
 void main() {
   late RemoveWatchlist usecase;
   late MockMovieRepository mockMovieRepository;
+  late MockTvSeriesRepository mockTvSeriesRepository;
 
   setUp(() {
     mockMovieRepository = MockMovieRepository();
-    usecase = RemoveWatchlist(mockMovieRepository);
+    mockTvSeriesRepository = MockTvSeriesRepository();
+
+    usecase = RemoveWatchlist(
+        movieRepository: mockMovieRepository,
+        tvSeriesRepository: mockTvSeriesRepository);
   });
 
   test('should remove watchlist movie from repository', () async {
