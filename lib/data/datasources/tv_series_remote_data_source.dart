@@ -50,7 +50,7 @@ class TvSeriesRemoteDataSourceImplement extends TvSeriesRemoteDataSource {
 
   @override
   Future<List<TvSeriesModel>> getOnTheAirTvSeries() async {
-    Uri url = Uri.parse(BASE_URL + '/tv/top_rated?$API_KEY');
+    Uri url = Uri.parse(BASE_URL + '/tv/on_the_air?$API_KEY');
     Response response = await client.get(url);
 
     if (response.statusCode == 200) {
