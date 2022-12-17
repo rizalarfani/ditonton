@@ -40,6 +40,17 @@ final testMovieDetail = MovieDetail(
   voteCount: 1,
 );
 
+final testTvSeries = TvSeries(
+  posterPath: 'posterPath',
+  popularity: 1,
+  id: 1,
+  backdropPath: 'backdropPath',
+  voteAverage: 4,
+  overview: 'overview',
+  genreIds: [10, 20],
+  name: 'name',
+);
+
 final testTvDetail = TvSeriesDetail(
   genres: [Genre(id: 1, name: 'Action')],
   id: 1,
