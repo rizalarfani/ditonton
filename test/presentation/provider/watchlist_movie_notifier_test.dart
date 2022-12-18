@@ -42,6 +42,19 @@ void main() {
     expect(listenerCallCount, 2);
   });
 
+  test('should change tv series data when data is gotten successfully',
+      () async {
+    // arrange
+    when(mockGetWatchlistTvSeries.execute())
+        .thenAnswer((_) async => Right([testWatchlistTvSeries]));
+    // act
+    await provider.fetchWatchlistTvSeries();
+    // assert
+    expect(provider.watchlistTvState, RequestState.Loaded);
+    expect(provider.watchListTvSeries, [testWatchlistTvSeries]);
+    expect(listenerCallCount, 2);
+  });
+
   test('should return error when data is unsuccessful', () async {
     // arrange
     when(mockGetWatchlistMovies.execute())
@@ -50,6 +63,18 @@ void main() {
     await provider.fetchWatchlistMovies();
     // assert
     expect(provider.watchlistState, RequestState.Error);
+    expect(provider.message, "Can't get data");
+    expect(listenerCallCount, 2);
+  });
+
+  test('should return error in tv series when data is unsuccessful', () async {
+    // arrange
+    when(mockGetWatchlistTvSeries.execute())
+        .thenAnswer((_) async => Left(DatabaseFailure("Can't get data")));
+    // act
+    await provider.fetchWatchlistTvSeries();
+    // assert
+    expect(provider.watchlistTvState, RequestState.Error);
     expect(provider.message, "Can't get data");
     expect(listenerCallCount, 2);
   });
